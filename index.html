@@ -26,6 +26,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 #vig{position:fixed;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center,transparent 52%,var(--vig,rgba(255,51,88,.6)) 100%)}
 .safe-t{top:calc(env(safe-area-inset-top,0px) + 12px)}
 
+#pops{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.pop{position:absolute;left:0;top:0;font-weight:700;font-style:italic;white-space:nowrap;text-shadow:0 2px 10px rgba(0,0,0,.85),0 0 2px rgba(0,0,0,.9);will-change:transform,opacity}
 /* ---------- HUD ---------- */
 #hud{position:fixed;inset:0;pointer-events:none;display:none}
 body.playing #hud,body.ended #hud{display:block}
@@ -135,6 +137,7 @@ body.endcard #end{display:flex}
 <canvas id="c"></canvas>
 <div id="speedfx"></div>
 <div id="vig"></div>
+<div id="pops"></div>
 
 <div id="hud">
   <div class="heat">
@@ -841,7 +844,7 @@ function addSkid(x,z,ang,y){skidO.position.set(x,y||0.05,z);skidO.rotation.set(0
 const sirenLight=new THREE.PointLight(0xff2040,0,80,1.4);scene.add(sirenLight);
 
 /* ================= VEHICLES ================= */
-const TUNE={accPlayer:0.34,accCop:0.42,brake:32,wallThresh:20,copWallThresh:12,wallDmg:1.6,carThresh:14,copCarThresh:8,carDmg:1.5,playerArmor:0.5,hpMul:3,copRamBonus:1.5};
+const TUNE={accPlayer:0.34,accCop:0.42,brake:32,wallThresh:20,copWallThresh:12,wallDmg:1.6,carThresh:14,copCarThresh:8,carDmg:1.5,playerArmor:0.5,hpMul:10,copRamBonus:1.5};
 const CARS=[
  {name:'Vanta GT',tag:'Balanced grand tourer. Quick everywhere, no weak spots.',color:0x2f6bff,shape:'coupe',top:66,acc:26,yaw:1.9,grip:7.6,mass:1350,hp:100,nitro:1,len:4.5,wid:1.9},
  {name:'Kestrel RS',tag:'Featherweight drift missile. Fast and twitchy, fragile.',color:0xffb020,shape:'sport',top:71,acc:31,yaw:2.15,grip:5.6,mass:1150,hp:78,nitro:1.15,len:4.3,wid:1.9},
@@ -1066,6 +1069,9 @@ function wreckCop(c){
     G.wrecked++;G.bounty+=tank?900:(parked?100:250);
     toast(tank?'Tank destroyed  +900':(parked?'Roadblock unit down  +100':'Unit wrecked  +250'),'good');
     sfxBeep(tank?240:520,tank?0.22:0.12);
+    const pts=tank?900:(parked?100:250),gyc=c.gy||0;
+    explosion(c.x,gyc,c.z,tank);popup(c.x,gyc+1.6,c.z,'+'+pts,'#ffb02e',tank?54:44);sfxHit(26);
+    c.bv=Math.max(c.bv||0,7);c.spin=clamp((c.spin||0)+rand(-4,4),-4,4);
   }
 }
 function wallHit(c,imp,px,pz){
@@ -1331,7 +1337,7 @@ function updatePeds(dt){
       const d=Math.sqrt(dx*dx+dz*dz);
       if(d<o.rad+0.45){
         p.state='down';p.downT=2.6+Math.random()*1.2;p.vx=o.vx*0.45+(Math.random()-0.5)*1.5;p.vz=o.vz*0.45+(Math.random()-0.5)*1.5;p.fall=0;
-        if(o.isPlayer&&G.mode==='playing')sfxHit(4);
+        if(o.isPlayer&&G.mode==='playing'){sfxHit(4);hitPoints(p.x,groundH(p.x,p.z),p.z);}
         threat=-1;break;
       }
       if(o.speed>7&&d<12){threat=1;ax+=(dx*(-p.dz)+dz*p.dx)>0?1:-1;}
@@ -1447,7 +1453,7 @@ function updateLeisure(dt){
     if(p.state==='down'){p.downT-=dt;p.x+=p.vx*dt;p.z+=p.vz*dt;const dr=Math.exp(-2.6*dt);p.vx*=dr;p.vz*=dr;p.fall=Math.min(1,p.fall+dt*5);
       if(p.downT<=0){p.state='ok';p.fall=0;if(p.mode==='sit'||p.mode==='lie'){p.x=p.hx;p.z=p.hz;}else{p.bx=p.x;p.bz=p.z;}}continue;}
     for(let c=0;c<THR.length;c++){const o=THR[c],dx=p.x-o.x,dz=p.z-o.z;if(dx*dx+dz*dz>16)continue;
-      if(Math.sqrt(dx*dx+dz*dz)<o.rad+0.45){p.state='down';p.downT=2.8+Math.random();p.vx=o.vx*0.45+(Math.random()-0.5)*1.5;p.vz=o.vz*0.45+(Math.random()-0.5)*1.5;p.fall=0;if(o.isPlayer&&G.mode==='playing')sfxHit(4);break;}}
+      if(Math.sqrt(dx*dx+dz*dz)<o.rad+0.45){p.state='down';p.downT=2.8+Math.random();p.vx=o.vx*0.45+(Math.random()-0.5)*1.5;p.vz=o.vz*0.45+(Math.random()-0.5)*1.5;p.fall=0;if(o.isPlayer&&G.mode==='playing'){sfxHit(4);hitPoints(p.x,p.y,p.z);}break;}}
     if(p.state==='down'||p.mode==='sit'||p.mode==='lie')continue;
     if(p.mode==='walk'){
       const T=p.nodes[p.ni];let dx=T[0]-p.bx,dz=T[1]-p.bz;const d=Math.hypot(dx,dz);p.moving=true;
@@ -1487,6 +1493,45 @@ function vertUpdate(c,dt){
   }
   c.sp0=sh;
 }
+/* floating score popups (world -> screen) and explosions */
+const POPS=[],popBox=$('pops'),_pv=new THREE.Vector3();
+function popup(x,y,z,txt,col,size){
+  if(POPS.length>=30){const o=POPS.shift();o.el.remove();}
+  const el=document.createElement('div');el.className='pop';el.textContent=txt;el.style.color=col;el.style.fontSize=size+'px';popBox.appendChild(el);
+  POPS.push({el,x,y,z,t:0,life:size>30?1.6:1.0,vy:size>30?3.2:2});
+}
+function updatePops(dt){
+  camera.updateMatrixWorld();
+  for(let i=POPS.length-1;i>=0;i--){
+    const p=POPS[i];p.t+=dt;p.y+=p.vy*dt;
+    if(p.t>=p.life){p.el.remove();POPS.splice(i,1);continue;}
+    _pv.set(p.x,p.y,p.z).project(camera);
+    if(_pv.z>1){p.el.style.opacity=0;continue;}
+    const f=p.t/p.life,sc=f<0.15?0.4+f/0.15*0.9:1.3-0.3*f;
+    p.el.style.transform='translate('+((_pv.x*0.5+0.5)*window.innerWidth).toFixed(1)+'px,'+((-_pv.y*0.5+0.5)*window.innerHeight).toFixed(1)+'px) translate(-50%,-50%) scale('+sc.toFixed(2)+')';
+    p.el.style.opacity=(f>0.6?1-(f-0.6)/0.4:1).toFixed(2);
+  }
+}
+const BOOM=[],boomLight=new THREE.PointLight(0xff8a30,0,70,1.5);scene.add(boomLight);let boomT=0;
+function explosion(x,y,z,big){
+  for(let i=0;i<(big?70:44);i++){const a=Math.random()*TAU,u=Math.random()*2-1,r=Math.sqrt(1-u*u),sp=rand(5,big?24:17);
+    sparkPool.emit(x,y+0.4,z,Math.cos(a)*r*sp,Math.abs(u)*sp*0.9+rand(2,8),Math.sin(a)*r*sp,rand(0.5,1.2),1,rand(0.45,0.8),0.12);}
+  for(let i=0;i<(big?36:26);i++)smokePool.emit(x+rand(-1.5,1.5),y+0.4,z+rand(-1.5,1.5),rand(-6,6),rand(2,9),rand(-6,6),rand(1.2,2.4),0.18,0.16,0.15);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xffa040,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:1}));
+  sp.position.set(x,y+1.2,z);sp.scale.set(5,5,1);scene.add(sp);BOOM.push({sp,t:0,big});
+  boomLight.position.set(x,y+3,z);boomT=0.5;
+  G.shake=Math.max(G.shake,clamp(1-Math.hypot(player.x-x,player.z-z)/70,0,0.9));
+}
+function updateBooms(dt){
+  for(let i=BOOM.length-1;i>=0;i--){
+    const b=BOOM[i];b.t+=dt;const f=b.t/0.55;
+    if(f>=1){scene.remove(b.sp);b.sp.material.dispose();BOOM.splice(i,1);continue;}
+    const sz=(b.big?9:6)+f*(b.big?22:15);b.sp.scale.set(sz,sz,1);b.sp.material.opacity=1-f*f;
+    b.sp.material.color.setHex(f<0.3?0xffd070:(f<0.6?0xff8a30:0xc03a10));
+  }
+  if(boomT>0){boomT-=dt;boomLight.intensity=Math.max(0,boomT/0.5)*7;}else boomLight.intensity=0;
+}
+function hitPoints(x,y,z){G.bounty+=10;popup(x,y+1.9,z,'+10','#43e6a8',22);}
 /* ================= COP AI ================= */
 const DIRS=[[1,0],[-1,0],[0,1],[0,-1]];
 function chooseNext(cur,prev,g){
@@ -1921,7 +1966,7 @@ function startPursuit(){
   for(let i=0;i<3;i++)spawnCop(pickKind(),true);
   spawnTraffic(Q.level==='high'?220:100);
   spawnPeds(Q.level==='high'?600:260);
-  $('toasts').innerHTML='';toast('Pursuit started. Lose them.','red');sfxBeep(660,0.15);
+  $('toasts').innerHTML='';POPS.forEach(p=>p.el.remove());POPS.length=0;toast('Pursuit started. Lose them.','red');sfxBeep(660,0.15);
   camH=P.th;camPos.set(P.x-Math.sin(P.th)*9,3.5,P.z-Math.cos(P.th)*9);
 }
 function endRun(res){
@@ -2202,11 +2247,11 @@ function frame(now){
   if(dt>0)update(dt);
   else if(G.mode==='menu'){player.mesh.group.position.set(player.x,0,player.z);player.mesh.group.rotation.y=player.th;}
   if(G.dmgFlash>0)G.dmgFlash=Math.max(0,G.dmgFlash-raw*3);
-  sparkPool.update(G.paused?0:raw,-18,1.2);smokePool.update(G.paused?0:raw,1.2,1.4);
+  sparkPool.update(G.paused?0:raw,-18,1.2);smokePool.update(G.paused?0:raw,1.2,1.4);updateBooms(G.paused?0:raw);
   if(dt>0)syncMeshes(dt);
   else if(G.mode==='menu')syncMeshes(raw);
   updateCamera(G.paused?0.0001:(dt||raw),raw);
-  updateSignals(G.time);updateWater(G.clock);updateShadowFollow(player.x,player.z);audioUpdate();updateHUD();drawMini();
+  updatePops(G.paused?0:raw);updateSignals(G.time);updateWater(G.clock);updateShadowFollow(player.x,player.z);audioUpdate();updateHUD();drawMini();
   skyGroup.position.copy(camera.position);updateRain(raw,player.vx,player.vz);
   Q.ema=Q.ema?Q.ema*0.96+raw*0.04:raw;
   if(G.mode==='playing'&&!G.paused&&Q.level==='high'){
