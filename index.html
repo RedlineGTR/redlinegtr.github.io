@@ -2236,7 +2236,7 @@ function spawnHeli(){
   const disc=new THREE.Mesh(dg,new THREE.MeshBasicMaterial({color:0xcfe4ff,transparent:true,opacity:0.06,blending:THREE.AdditiveBlending,depthWrite:false}));
   disc.scale.set(8,1,8);disc.position.y=0.09;
   scene.add(hm.g);scene.add(cone);scene.add(disc);
-  G.heli={x:P.x+Math.cos(a)*320,z:P.z+Math.sin(a)*320,y:40,vx:0,vz:0,hm,cone,disc};
+  G.heli={x:P.x+Math.cos(a)*320,z:P.z+Math.sin(a)*320,y:Math.max(hillH(P.x+Math.cos(a)*320,P.z+Math.sin(a)*320),hillH(P.x,P.z))+40,vx:0,vz:0,hm,cone,disc};
   toast('Helicopter overhead','blue');
 }
 function removeHeli(){const h=G.heli;if(!h)return;scene.remove(h.hm.g);scene.remove(h.cone);scene.remove(h.disc);G.heli=null;}
@@ -2245,13 +2245,16 @@ function updateHeli(dt){
   const h=G.heli,P=player;if(!h)return;
   const tx=P.x+P.vx*0.8,tz=P.z+P.vz*0.8,dx=tx-h.x,dz=tz-h.z,d=Math.hypot(dx,dz)||1,want=Math.min(70,d*0.9);
   const k=Math.min(1,dt*1.2);h.vx+=(dx/d*want-h.vx)*k;h.vz+=(dz/d*want-h.vz)*k;h.x+=h.vx*dt;h.z+=h.vz*dt;
+  // stay 40 m above the highest ground under the helicopter, the player and the next ~3 s of its path
+  const gTop=Math.max(hillH(h.x,h.z),hillH(P.x,P.z),hillH(h.x+h.vx,h.z+h.vz),hillH(h.x+h.vx*2,h.z+h.vz*2),hillH(h.x+h.vx*3,h.z+h.vz*3));
+  h.y+=(gTop+40-h.y)*Math.min(1,dt*2.5);
   const hy=h.y+Math.sin(G.clock*1.7)*0.8;
   h.hm.g.position.set(h.x,hy,h.z);h.hm.g.rotation.y=Math.atan2(h.vx,h.vz);h.hm.rotor.rotation.y+=dt*30;
   h.hm.r.material.opacity=(Math.floor(G.clock*3)%2)?0.9:0.15;
-  const len=Math.hypot(h.x-P.x,hy,h.z-P.z)||1;
-  h.cone.position.set((h.x+P.x)/2,hy/2,(h.z+P.z)/2);
-  tmpV.set(h.x-P.x,hy,h.z-P.z).normalize();h.cone.quaternion.setFromUnitVectors(UP,tmpV);h.cone.scale.set(9,len,9);
-  h.disc.position.set(P.x,0.09,P.z);
+  const pg=P.gy||0,len=Math.hypot(h.x-P.x,hy-pg,h.z-P.z)||1;
+  h.cone.position.set((h.x+P.x)/2,(hy+pg)/2,(h.z+P.z)/2);
+  tmpV.set(h.x-P.x,hy-pg,h.z-P.z).normalize();h.cone.quaternion.setFromUnitVectors(UP,tmpV);h.cone.scale.set(9,len,9);
+  h.disc.position.set(P.x,pg+0.09,P.z);
 }
 
 /* ================= AUDIO ================= */
@@ -2482,7 +2485,7 @@ function gameLogic(dt){
   let spotted=false,near=999,units=0,adj=0,gnear=0;
   for(const c of cars){
     if(c===P||c.kind==='parked'||c.kind==='traffic'||c.dead)continue;
-    units++;const d=Math.hypot(c.x-P.x,c.z-P.z);if(d<near)near=d;if(d<400)gnear++;if(c.ai.sees)spotted=true;if(d<12)adj++;
+    units++;const d=Math.hypot(c.x-P.x,c.z-P.z);if(d<near)near=d;if(d<400)gnear++;if(c.ai.sees)spotted=true;if(d<22)adj++;
   }
   if(G.heli&&Math.hypot(G.heli.x-P.x,G.heli.z-P.z)<320)spotted=true;
   G.spotted=spotted;G.near=near;G.units=units;
