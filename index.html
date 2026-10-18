@@ -1160,17 +1160,20 @@ const sirenLight=new THREE.PointLight(0xff2040,0,80,1.4);scene.add(sirenLight);
 /* ================= VEHICLES ================= */
 const TUNE={accPlayer:0.34,accCop:0.42,brake:32,wallThresh:20,copWallThresh:12,wallDmg:1.6,carThresh:14,copCarThresh:8,carDmg:1.5,playerArmor:0.5,hpMul:10,copRamBonus:1.5};
 const CARS=[
- {name:'Vanta GT',tag:'Balanced grand tourer. Quick everywhere, no weak spots.',color:0x2f6bff,shape:'coupe',top:66,acc:26,yaw:1.9,grip:7.6,mass:1350,hp:100,nitro:1,len:4.5,wid:1.9},
- {name:'Kestrel RS',tag:'Featherweight drift missile. Fast and twitchy, fragile.',color:0xffb020,shape:'sport',top:71,acc:31,yaw:2.15,grip:5.6,mass:1150,hp:78,nitro:1.15,len:4.3,wid:1.9},
- {name:'Bulwark V8',tag:'Muscle-car brawler. Shrugs off hits, hates tight corners.',color:0xd6223a,shape:'muscle',top:63,acc:25,yaw:1.6,grip:6.9,mass:1750,hp:135,nitro:0.9,len:4.9,wid:2.0},
- {name:'Mako AWD',tag:'Rally hatch with monster grip. Owns the narrow streets.',color:0x27d17f,shape:'hatch',top:60,acc:29,yaw:2.3,grip:10.5,mass:1300,hp:96,nitro:1,len:4.0,wid:1.8},
- {name:'Phantom X',tag:'Hypercar. Terrifying top end, thin armor.',color:0xb56cff,shape:'sport',top:78,acc:33,yaw:1.75,grip:6.6,mass:1250,hp:68,nitro:1.3,len:4.6,wid:2.0},
- {name:'Falcon SX',tag:'Family-sized sedan with a big engine. Steady, forgiving, tough.',color:0x8b9bb4,shape:'sedan',top:64,acc:26,yaw:1.85,grip:7.8,mass:1500,hp:105,nitro:1,len:4.8,wid:1.9},
- {name:'Ridgeback SUV',tag:'Heavy family SUV. Rides high, takes a beating, wide turning circle.',color:0x2f6b4f,shape:'suv',top:61,acc:24,yaw:1.55,grip:7.0,mass:2300,hp:150,nitro:0.9,len:5.0,wid:2.1},
- {name:'Titan Pickup',tag:'Work truck with a V8. Slow to turn, almost impossible to stop.',color:0xd6a021,shape:'pickup',top:60,acc:23,yaw:1.5,grip:6.6,mass:2400,hp:165,nitro:0.85,len:5.4,wid:2.05},
- {name:'Aero LX',tag:'Sport sedan. Sharp handling and strong grip, lighter armor.',color:0x7a2bd1,shape:'sedan',top:70,acc:30,yaw:2.0,grip:8.4,mass:1450,hp:90,nitro:1.05,len:4.7,wid:1.9},
- {name:'Nomad SUV',tag:'Performance SUV. Quick for its size and hard to wreck.',color:0xe8641b,shape:'suv',top:68,acc:28,yaw:1.7,grip:8.0,mass:2100,hp:130,nitro:1.0,len:5.0,wid:2.1},
- {name:'Grizzly Hauler',tag:'Box truck. Slow, enormous, nearly unstoppable. Flattens traffic.',color:0xc23b22,shape:'boxtruck',top:52,acc:18,yaw:1.1,grip:6.0,mass:4200,hp:260,nitro:0.7,len:7.2,wid:2.45}];
+  {name: 'Ferrari F8 Tributo', tag: 'Italian mid-engine supercar. Incredible speed.', color: 0xff3358, shape: 'coupe', top: 78, acc: 32, yaw: 2.0, grip: 8.2, mass: 1400, hp: 110, nitro: 1.2, len: 4.6, wid: 1.9},
+  {name: 'Chevrolet Corvette Z06', tag: 'American performance icon. Balanced and aggressive.', color: 0x3d8bff, shape: 'sport', top: 74, acc: 30, yaw: 1.9, grip: 7.9, mass: 1500, hp: 105, nitro: 1.1, len: 4.5, wid: 1.9},
+  {name: 'Mazda MX-5 Miata', tag: 'Lightweight roadster. Exceptional handling, pure driving joy.', color: 0xffffff, shape: 'sport', top: 58, acc: 20, yaw: 2.3, grip: 7.2, mass: 1000, hp: 65, nitro: 0.8, len: 3.9, wid: 1.7},
+  {name: 'Rolls-Royce Phantom', tag: 'The pinnacle of luxury. Heavy, smooth, and imposing.', color: 0xcccccc, shape: 'sedan', top: 62, acc: 18, yaw: 1.4, grip: 6.2, mass: 2600, hp: 140, nitro: 0.9, len: 5.8, wid: 2.0},
+  {name: 'BMW M5', tag: 'High-performance executive sedan. Power meets daily utility.', color: 0x3d8bff, shape: 'sedan', top: 70, acc: 27, yaw: 1.8, grip: 7.6, mass: 1800, hp: 115, nitro: 1.0, len: 4.9, wid: 1.9},
+  {name: 'Ford F-150 Lightning', tag: 'Electric workhorse. Instant torque, rugged capability.', color: 0xadd8e6, shape: 'pickup', top: 60, acc: 26, yaw: 1.5, grip: 6.8, mass: 2800, hp: 145, nitro: 1.0, len: 5.8, wid: 2.1},
+  {name: 'Toyota Tacoma', tag: 'Legendary off-road reliability. Built for the toughest trails.', color: 0xd2b48c, shape: 'pickup', top: 56, acc: 19, yaw: 1.5, grip: 7.0, mass: 2000, hp: 95, nitro: 0.8, len: 5.3, wid: 1.9},
+  {name: 'Ram 1500', tag: 'Bold and powerful. The ultimate heavy-duty hauler.', color: 0x8b8f99, shape: 'pickup', top: 58, acc: 21, yaw: 1.4, grip: 6.6, mass: 2500, hp: 125, nitro: 0.9, len: 5.7, wid: 2.1},
+  {name: 'Ram 2500', tag: 'Heavy-duty towing beast. Built for work and durability.', color: 0x8b8f99, shape: 'pickup', top: 54, acc: 17, yaw: 1.3, grip: 6.4, mass: 3000, hp: 135, nitro: 0.8, len: 6.0, wid: 2.2},
+  {name: 'Mercedes-Benz G-Class', tag: 'Luxury off-road icon. Unmatched presence and capability.', color: 0x8b8f99, shape: 'suv', top: 60, acc: 22, yaw: 1.5, grip: 7.2, mass: 2500, hp: 135, nitro: 0.9, len: 4.8, wid: 2.0},
+  {name: 'Range Rover', tag: 'Refined luxury SUV. Smooth ride with all-terrain prowess.', color: 0x2e3448, shape: 'suv', top: 66, acc: 24, yaw: 1.6, grip: 7.5, mass: 2400, hp: 130, nitro: 1.0, len: 5.0, wid: 2.1},
+  {name: 'Rolls-Royce Cullinan', tag: 'The ultra-luxury SUV. Effortless power and comfort.', color: 0x8b8f99, shape: 'suv', top: 64, acc: 22, yaw: 1.4, grip: 6.8, mass: 2700, hp: 145, nitro: 0.9, len: 5.3, wid: 2.2},
+  {name: 'Grizzly Hauler', tag: 'Box truck. Slow, enormous, nearly unstoppable.', color: 0xc23b22, shape: 'boxtruck', top: 52, acc: 18, yaw: 1.1, grip: 6.0, mass: 4200, hp: 260, nitro: 0.7, len: 7.2, wid: 2.45}
+];
 const COP_COL=[0x1b2a4a,0x1f4d2b,0x7a5a30,0xc8a15a,0xb5521f,0x9dc4e0,0x8a1c1c];   // meadow, forest, farm, desert, badlands, snow, volcano
 const COPS={
  patrol:{name:'Patrol',color:0x101319,shape:'cop',top:60,acc:25,yaw:1.9,grip:7.4,mass:1500,hp:75,len:4.7,wid:1.95},
