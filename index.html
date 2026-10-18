@@ -1160,19 +1160,19 @@ const sirenLight=new THREE.PointLight(0xff2040,0,80,1.4);scene.add(sirenLight);
 /* ================= VEHICLES ================= */
 const TUNE={accPlayer:0.34,accCop:0.42,brake:32,wallThresh:20,copWallThresh:12,wallDmg:1.6,carThresh:14,copCarThresh:8,carDmg:1.5,playerArmor:0.5,hpMul:10,copRamBonus:1.5};
 const CARS=[
-  {name: 'Ferrari F8 Tributo', tag: 'Italian mid-engine supercar. Incredible speed.', color: 0xff3358, shape: 'coupe', top: 78, acc: 32, yaw: 2.0, grip: 8.2, mass: 1400, hp: 110, nitro: 1.2, len: 4.6, wid: 1.9},
-  {name: 'Chevrolet Corvette Z06', tag: 'American performance icon. Balanced and aggressive.', color: 0x3d8bff, shape: 'sport', top: 74, acc: 30, yaw: 1.9, grip: 7.9, mass: 1500, hp: 105, nitro: 1.1, len: 4.5, wid: 1.9},
-  {name: 'Mazda MX-5 Miata', tag: 'Lightweight roadster. Exceptional handling, pure driving joy.', color: 0xffffff, shape: 'sport', top: 58, acc: 20, yaw: 2.3, grip: 7.2, mass: 1000, hp: 65, nitro: 0.8, len: 3.9, wid: 1.7},
-  {name: 'Rolls-Royce Phantom', tag: 'The pinnacle of luxury. Heavy, smooth, and imposing.', color: 0xcccccc, shape: 'sedan', top: 62, acc: 18, yaw: 1.4, grip: 6.2, mass: 2600, hp: 140, nitro: 0.9, len: 5.8, wid: 2.0},
-  {name: 'BMW M5', tag: 'High-performance executive sedan. Power meets daily utility.', color: 0x3d8bff, shape: 'sedan', top: 70, acc: 27, yaw: 1.8, grip: 7.6, mass: 1800, hp: 115, nitro: 1.0, len: 4.9, wid: 1.9},
-  {name: 'Ford F-150 Lightning', tag: 'Electric workhorse. Instant torque, rugged capability.', color: 0xadd8e6, shape: 'pickup', top: 60, acc: 26, yaw: 1.5, grip: 6.8, mass: 2800, hp: 145, nitro: 1.0, len: 5.8, wid: 2.1},
-  {name: 'Toyota Tacoma', tag: 'Legendary off-road reliability. Built for the toughest trails.', color: 0xd2b48c, shape: 'pickup', top: 56, acc: 19, yaw: 1.5, grip: 7.0, mass: 2000, hp: 95, nitro: 0.8, len: 5.3, wid: 1.9},
-  {name: 'Ram 1500', tag: 'Bold and powerful. The ultimate heavy-duty hauler.', color: 0x8b8f99, shape: 'pickup', top: 58, acc: 21, yaw: 1.4, grip: 6.6, mass: 2500, hp: 125, nitro: 0.9, len: 5.7, wid: 2.1},
-  {name: 'Ram 2500', tag: 'Heavy-duty towing beast. Built for work and durability.', color: 0x8b8f99, shape: 'pickup', top: 54, acc: 17, yaw: 1.3, grip: 6.4, mass: 3000, hp: 135, nitro: 0.8, len: 6.0, wid: 2.2},
-  {name: 'Mercedes-Benz G-Class', tag: 'Luxury off-road icon. Unmatched presence and capability.', color: 0x8b8f99, shape: 'suv', top: 60, acc: 22, yaw: 1.5, grip: 7.2, mass: 2500, hp: 135, nitro: 0.9, len: 4.8, wid: 2.0},
-  {name: 'Range Rover', tag: 'Refined luxury SUV. Smooth ride with all-terrain prowess.', color: 0x2e3448, shape: 'suv', top: 66, acc: 24, yaw: 1.6, grip: 7.5, mass: 2400, hp: 130, nitro: 1.0, len: 5.0, wid: 2.1},
-  {name: 'Rolls-Royce Cullinan', tag: 'The ultra-luxury SUV. Effortless power and comfort.', color: 0x8b8f99, shape: 'suv', top: 64, acc: 22, yaw: 1.4, grip: 6.8, mass: 2700, hp: 145, nitro: 0.9, len: 5.3, wid: 2.2},
-  {name: 'Grizzly Hauler', tag: 'Box truck. Slow, enormous, nearly unstoppable.', color: 0xc23b22, shape: 'boxtruck', top: 52, acc: 18, yaw: 1.1, grip: 6.0, mass: 4200, hp: 260, nitro: 0.7, len: 7.2, wid: 2.45}
+ {name:'Mazda MX-5 Miata',tag:'Starter roadster. Light, nimble and fun to throw around.',color:0xf4f4f4,shape:'miata',top:62,acc:27,yaw:2.2,grip:8.4,mass:1050,hp:70,nitro:1.0,len:3.95,wid:1.75,price:0,open:true},
+ {name:'Toyota Tacoma',tag:'Tough little pickup. Handles dirt and takes a few knocks.',color:0xcdb27a,shape:'tacoma',top:58,acc:24,yaw:1.6,grip:7.2,mass:2000,hp:130,nitro:0.9,len:5.3,wid:1.95,price:2000,bed:true,scoop:true},
+ {name:'Ford F-150 Lightning',tag:'Electric pickup. Huge instant torque and a lot of mass.',color:0x8fb8e8,shape:'lightning',top:64,acc:31,yaw:1.55,grip:7.4,mass:2800,hp:150,nitro:1.0,len:5.9,wid:2.05,price:3500,bed:true,lightbar:true},
+ {name:'Ram 2500',tag:'Heavy-duty truck. Slow to turn, very hard to stop.',color:0x8a8e94,shape:'ram',top:60,acc:23,yaw:1.4,grip:6.8,mass:3200,hp:190,nitro:0.85,len:6.1,wid:2.1,price:4500,bed:true,grille:0.3},
+ {name:'BMW M5',tag:'Sport sedan. Fast, grippy and balanced.',color:0x1e3a8a,shape:'m5',top:74,acc:31,yaw:1.95,grip:8.6,mass:1950,hp:105,nitro:1.15,len:4.95,wid:1.95,price:5500,darkRoof:true},
+ {name:'Ram 3500',tag:'Dually workhorse. Even heavier and even tougher.',color:0x7d8187,shape:'ram',top:58,acc:22,yaw:1.3,grip:6.6,mass:3600,hp:210,nitro:0.8,len:6.4,wid:2.15,price:6000,bed:true,grille:0.3},
+{name:'Grizzly Hauler',tag:'Box truck. Slow, enormous, nearly unstoppable. Flattens traffic.',color:0xc23b22,shape:'boxtruck',top:52,acc:18,yaw:1.1,grip:6.0,mass:4200,hp:260,nitro:0.7,len:7.2,wid:2.45,price:7000},
+ {name:'Range Rover',tag:'Luxury SUV. Smooth, strong and hard to wreck.',color:0x3a3d42,shape:'rr',top:66,acc:28,yaw:1.6,grip:7.8,mass:2500,hp:160,nitro:1.0,len:5.2,wid:2.1,price:8500,grille:0.22},
+ {name:'Mercedes-Benz G-Class',tag:'Boxy off-roader. Rides high and shrugs off hits.',color:0x8d9096,shape:'gclass',top:62,acc:26,yaw:1.5,grip:7.4,mass:2600,hp:175,nitro:0.95,len:4.8,wid:2.0,price:10000,spare:true},
+ {name:'Chevrolet Corvette Z06',tag:'American supercar. Big power, big wing, sharp turn-in.',color:0x1e9be0,shape:'z06',top:80,acc:34,yaw:2.0,grip:8.2,mass:1600,hp:95,nitro:1.3,len:4.7,wid:2.0,price:12000,wing:'dark'},
+ {name:'Rolls-Royce Phantom',tag:'The ultimate luxury sedan. Heavy, silent and almost unstoppable.',color:0xb8bcc2,shape:'phantom',top:70,acc:28,yaw:1.5,grip:7.6,mass:2700,hp:180,nitro:1.0,len:5.7,wid:2.0,price:18000,grille:0.5},
+ {name:'Ferrari F8 Tributo',tag:'Mid-engine Italian supercar. The fastest car you can buy.',color:0xd62a2a,shape:'f8',top:84,acc:36,yaw:2.15,grip:8.0,mass:1400,hp:80,nitro:1.35,len:4.6,wid:2.0,price:20000},
+ {name:'Rolls-Royce Cullinan',tag:'Super-luxury SUV. A tank in a tuxedo.',color:0x44474d,shape:'cull',top:68,acc:29,yaw:1.5,grip:7.6,mass:2900,hp:200,nitro:1.05,len:5.4,wid:2.15,price:25000,grille:0.45}
 ];
 const COP_COL=[0x1b2a4a,0x1f4d2b,0x7a5a30,0xc8a15a,0xb5521f,0x9dc4e0,0x8a1c1c];   // meadow, forest, farm, desert, badlands, snow, volcano
 const COPS={
@@ -1197,7 +1197,18 @@ const PROF={
  tractor:{body:[[-0.5,0.55],[-0.5,1.6],[-0.12,1.6],[-0.08,1.2],[0.5,1.1],[0.5,0.55]],cab:[[-0.46,1.55],[-0.42,2.55],[-0.14,2.55],[-0.1,1.55]],roof:[-0.42,-0.14,2.55],cabW:0.8},
  jeep:{body:[[-0.5,0.45],[-0.5,0.95],[-0.45,1.0],[0.22,1.0],[0.3,0.92],[0.5,0.85],[0.5,0.45]],cab:[[-0.45,0.98],[-0.42,1.62],[0.15,1.62],[0.22,0.98]],roof:[-0.42,0.15,1.62],cabW:0.9},
  logger:{body:[[-0.5,0.7],[-0.5,1.3],[0.12,1.3],[0.12,2.0],[0.3,2.0],[0.38,1.5],[0.5,1.2],[0.5,0.7]],cab:[[0.14,1.95],[0.18,2.5],[0.3,2.5],[0.4,1.9]],roof:[0.18,0.3,2.5],cabW:0.85},
- dumper:{body:[[-0.5,0.9],[-0.5,2.6],[0.05,2.6],[0.05,1.9],[0.3,1.9],[0.5,1.4],[0.5,0.9]],cab:[[0.08,1.85],[0.12,2.4],[0.3,2.4],[0.4,1.8]],roof:[0.12,0.3,2.4],cabW:0.9}};
+ dumper:{body:[[-0.5,0.9],[-0.5,2.6],[0.05,2.6],[0.05,1.9],[0.3,1.9],[0.5,1.4],[0.5,0.9]],cab:[[0.08,1.85],[0.12,2.4],[0.3,2.4],[0.4,1.8]],roof:[0.12,0.3,2.4],cabW:0.9},
+ miata:{body:[[-0.5,0.34],[-0.5,0.62],[-0.44,0.70],[-0.2,0.72],[0.1,0.70],[0.3,0.64],[0.5,0.46],[0.5,0.34]],cab:[[0.0,0.66],[0.09,0.9],[0.14,0.9],[0.21,0.66]],roof:[0.09,0.14,0.9],cabW:0.86},
+ f8:{body:[[-0.5,0.30],[-0.5,0.58],[-0.40,0.72],[-0.22,0.76],[0.0,0.74],[0.22,0.64],[0.5,0.42],[0.5,0.30]],cab:[[-0.2,0.74],[-0.06,1.1],[0.08,1.12],[0.28,0.70]],roof:[-0.06,0.08,1.12],cabW:0.8},
+ z06:{body:[[-0.5,0.32],[-0.5,0.66],[-0.42,0.78],[-0.2,0.8],[0.05,0.78],[0.26,0.68],[0.5,0.46],[0.5,0.32]],cab:[[-0.2,0.78],[-0.06,1.16],[0.1,1.18],[0.3,0.74]],roof:[-0.06,0.1,1.18],cabW:0.82},
+ phantom:{body:[[-0.5,0.40],[-0.5,0.94],[-0.44,1.04],[-0.18,1.06],[0.18,1.02],[0.34,0.96],[0.5,0.86],[0.5,0.40]],cab:[[-0.3,1.04],[-0.22,1.58],[0.1,1.6],[0.26,1.0]],roof:[-0.22,0.1,1.6],cabW:0.9},
+ m5:{body:[[-0.5,0.36],[-0.5,0.78],[-0.44,0.88],[-0.26,0.92],[0.1,0.9],[0.32,0.84],[0.5,0.66],[0.5,0.36]],cab:[[-0.26,0.9],[-0.14,1.36],[0.04,1.38],[0.22,0.86]],roof:[-0.14,0.04,1.38],cabW:0.86},
+ lightning:{body:[[-0.5,0.46],[-0.5,1.0],[-0.18,1.0],[-0.14,1.08],[0.12,1.08],[0.34,1.0],[0.5,0.86],[0.5,0.46]],cab:[[-0.14,1.06],[-0.06,1.66],[0.12,1.66],[0.26,1.02]],roof:[-0.06,0.12,1.66],cabW:0.88},
+ tacoma:{body:[[-0.5,0.46],[-0.5,0.98],[-0.2,0.98],[-0.16,1.06],[0.1,1.08],[0.34,1.02],[0.5,0.9],[0.5,0.46]],cab:[[-0.16,1.04],[-0.08,1.62],[0.1,1.62],[0.26,1.02]],roof:[-0.08,0.1,1.62],cabW:0.88},
+ ram:{body:[[-0.5,0.5],[-0.5,1.1],[-0.2,1.1],[-0.16,1.2],[0.1,1.22],[0.34,1.14],[0.5,1.0],[0.5,0.5]],cab:[[-0.16,1.18],[-0.08,1.82],[0.12,1.82],[0.26,1.14]],roof:[-0.08,0.12,1.82],cabW:0.9},
+ gclass:{body:[[-0.5,0.46],[-0.5,1.16],[-0.46,1.2],[0.28,1.2],[0.38,1.14],[0.5,0.96],[0.5,0.46]],cab:[[-0.46,1.18],[-0.46,1.9],[0.22,1.9],[0.3,1.18]],roof:[-0.46,0.22,1.9],cabW:0.9},
+ rr:{body:[[-0.5,0.44],[-0.5,1.04],[-0.44,1.12],[0.16,1.12],[0.36,1.04],[0.5,0.86],[0.5,0.44]],cab:[[-0.46,1.1],[-0.42,1.78],[0.12,1.78],[0.3,1.1]],roof:[-0.42,0.12,1.78],cabW:0.9},
+ cull:{body:[[-0.5,0.5],[-0.5,1.1],[-0.44,1.18],[0.18,1.2],[0.38,1.1],[0.5,0.92],[0.5,0.5]],cab:[[-0.46,1.16],[-0.4,1.86],[0.14,1.86],[0.32,1.14]],roof:[-0.4,0.14,1.86],cabW:0.9}};
 function extrudeProfile(pts,L,width,bevel){
   const sh=new THREE.Shape();
   pts.forEach((p,i)=>{if(i===0)sh.moveTo(p[0]*L,p[1]);else sh.lineTo(p[0]*L,p[1]);});
@@ -1238,7 +1249,8 @@ function buildCarMesh(def,isPlayer){
   add(GEO[key].body,pm,0,0,0);
   add(GEO[key].cab,MAT.glass,0,0,0);
   const r=prof.roof,cabHalf=W*prof.cabW/2,bodyHalf=W*0.475+0.07;
-  bx(W*prof.cabW*0.98,0.05,(r[1]-r[0])*L+0.05,pm,0,r[2]+0.05,(r[0]+r[1])/2*L);
+  if(!def.open)bx(W*prof.cabW*0.98,0.05,(r[1]-r[0])*L+0.05,def.darkRoof?MAT.dark:pm,0,r[2]+0.05,(r[0]+r[1])/2*L);
+  else{const cz2=prof.cab[0][0]*L-0.95;for(const sd of[-1,1])bx(0.5,0.36,0.5,MAT.dark,sd*W*0.2,prof.body[3][1]+0.1,cz2);bx(W*0.74,0.05,1.7,MAT.dark,0,prof.body[3][1]+0.02,cz2-0.1);}   // roadster: open cockpit
   bx(W*0.86,0.14,L*0.9,MAT.dark,0,0.32,0);
   const noseY=prof.body[prof.body.length-2][1],tailY=prof.body[1][1];
   for(const s of[-1,1])bx(0.46,0.12,0.06,MAT.head,s*W*0.3,noseY-0.1,hl+0.1);
@@ -1247,8 +1259,13 @@ function buildCarMesh(def,isPlayer){
   bx(W*0.94,0.07,0.32,MAT.dark,0,0.36,hl-0.02);
   for(const s of[-1,1])bx(0.14,0.1,0.2,pm,s*(cabHalf+0.09),prof.cab[0][1]+0.14,prof.cab[3][0]*L-0.2);
   if(!cop)for(const s of[-1,1])add(EXH_G,MAT.dark,s*0.4,0.42,-hl-0.12);
-  if(shape==='sport'){bx(W*0.9,0.05,0.5,pm,0,tailY+0.42,-hl+0.15);for(const s of[-1,1])bx(0.06,0.4,0.3,pm,s*W*0.3,tailY+0.2,-hl+0.15);}
+  if(shape==='sport'||def.wing){const wm=def.wing==='dark'?MAT.dark:pm;bx(W*0.9,0.05,0.5,wm,0,tailY+0.42,-hl+0.15);for(const s of[-1,1])bx(0.06,0.4,0.3,wm,s*W*0.3,tailY+0.2,-hl+0.15);}
   if(shape==='muscle')bx(0.5,0.1,0.8,MAT.dark,0,prof.body[4][1]+0.06,L*0.2);
+  if(def.scoop)bx(0.5,0.1,0.8,MAT.dark,0,prof.body[prof.body.length-3][1]+0.05,L*0.2);
+  if(def.grille)bx(W*0.44,def.grille,0.1,MAT.rim,0,noseY-def.grille/2-0.06,hl+0.08);
+  if(def.lightbar)bx(W*0.84,0.06,0.07,MAT.head,0,noseY-0.04,hl+0.08);
+  if(def.spare){const st=add(TIRE_G,MAT.tire,0,0.95,-hl-0.2);st.rotation.y=PI/2;st.scale.set(1,1.1,1.1);}
+  if(def.bed){const bt=prof.body[1][1],bl=L*0.36;bx(W*0.8,0.06,bl,MAT.dark,0,bt+0.03,-hl+bl/2+0.1);}   // open truck bed
   let copParts=null;
   if(cop){
     const bw=W*0.95+0.18,by=tall?0.78:0.62,bh=tall?0.42:0.3;
@@ -1324,8 +1341,8 @@ try{G.bank=parseInt(localStorage.getItem('redline-bank')||'0',10)||0;}catch(e){}
 function saveBank(){try{localStorage.setItem('redline-bank',String(G.bank));}catch(e){}}
 G.money=0;try{G.money=parseInt(localStorage.getItem('redline-money')||'0',10)||0;}catch(e){}
 function saveMoney(){try{localStorage.setItem('redline-money',String(G.money));}catch(e){}}
-const OWNED=new Set([0]);try{JSON.parse(localStorage.getItem('redline-owned')||'[0]').forEach(i=>OWNED.add(i));}catch(e){}
-function saveOwned(){try{localStorage.setItem('redline-owned',JSON.stringify([...OWNED]));}catch(e){}}
+const OWNED=new Set([0]);try{JSON.parse(localStorage.getItem('redline-owned-2')||'[0]').forEach(i=>OWNED.add(i));}catch(e){}
+function saveOwned(){try{localStorage.setItem('redline-owned-2',JSON.stringify([...OWNED]));}catch(e){}}
 /* secret code on the start screen: every car + unlimited money */
 const CHEAT_CODE='gulatigoats';let CHEAT=false;try{CHEAT=localStorage.getItem('redline-cheat')==='1';}catch(e){}
 if(CHEAT){for(let i=0;i<CARS.length;i++)OWNED.add(i);G.money=999999999;}
@@ -1894,7 +1911,7 @@ function updateBooms(dt){
 }
 function hitPoints(x,y,z){G.bounty+=10;popup(x,y+1.9,z,'+10','#43e6a8',22);}
 /* ---- collectible cash: it is always saved; the banked bounty is added on top as a bonus ---- */
-const PRICES=[0,1500,2500,3500,6000,2000,3000,4000,4500,5500,7000],CASHN=2600;
+const PRICES=CARS.map(c=>c.price||0),CASHN=2600;
 const CASH=[];let cashB=null,cashBand=null,cashGlow=null,cashPos=null,cashTick=0;
 function addCash(x,z,y,v){const c={x,y,z,v,on:true,ph:Math.random()*6,drop:false,vx:0,vz:0,vy:0,air:false,life:30};CASH.push(c);return c;}
 function spawnCash(){
